@@ -1,22 +1,21 @@
 from effector_board import EffectorBoard
-from effectors.distortion import Distortion
-from parameters.distortion_parameters import DistortionParameters
-from player import Player
 
-FILENAME = "./test_data/guitar.wav"
+import flet as ft
+from gui.components.player import PlayerGui
+from gui.components.effector_board import EffectorBoardGui
+from gui.components.distortion import DistortionGui
+from gui.components.equalizer import EqualizerGui
 
-def main():
-    player = Player(FILENAME)
-    distorion = Distortion()
-    distorion.set_parameters(DistortionParameters(8))
+FILENAME = "./data/guitar.wav"
 
-    board = EffectorBoard([
-        distorion
-    ])
-    board.print_effector_chain()
-    player.set_effector_board(board)
 
-    player.play()
+def main(page: ft.Page):
+    page.title = "Python Effector"
+
+    boardGui = EffectorBoardGui([EqualizerGui()])
+    page.add(ft.Column([PlayerGui(FILENAME, boardGui)]))
+    page.update()
+
 
 if __name__ == "__main__":
-    main()
+    ft.app(target=main)
